@@ -1,0 +1,43 @@
+#import "./fragments/profile.graphql"
+
+query GetConnectedWalletQuery($address: PublicKey!, $limit: Int = 1000, $offset: Int = 0) {
+  wallet(address: $address) {
+    address
+    previewImage @client
+    profile {
+      ...ProfileInfo
+    }
+    nftCounts {
+      owned
+      created
+      offered
+      listed
+    }
+    connectionCounts {
+      fromCount
+      toCount
+    }
+  }
+
+  followers: connections(to: [$address], limit: $limit, offset: $offset) {
+    from {
+      address
+      profile {
+        ...ProfileInfo
+      }
+    }
+  }
+
+  following: connections(from: [$address], limit: $limit, offset: $offset) {
+    to {
+      address
+      profile {
+        ...ProfileInfo
+      }
+    }
+  }
+
+  viewer @client {
+    balance
+  }
+}
