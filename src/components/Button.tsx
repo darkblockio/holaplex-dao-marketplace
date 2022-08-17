@@ -88,4 +88,38 @@ const Button = ({
   );
 };
 
+function ButtonSkeleton({
+  size = ButtonSize.Large,
+  ...props
+}: {
+  invisibleText?: string;
+  block?: boolean;
+  size?: ButtonSize;
+  circle?: boolean;
+  className?: string;
+}) {
+  return (
+    <div
+      className={clsx(
+        clsx,
+        'focus:shadow-outline flex grow-0 animate-pulse items-center justify-center rounded-full text-center font-semibold transition-transform duration-150',
+        props.className,
+        {
+          'w-full': props.block,
+          'bg-gray-800 text-gray-800': true,
+          'text-xs md:text-sm': size === ButtonSize.Small,
+          'py-1 px-4': !props.circle && size === ButtonSize.Small,
+          'py-2 px-6': size === ButtonSize.Large,
+          'rounded-full': props.circle,
+          'h-10 w-10': props.circle && ButtonSize.Small,
+        }
+      )}
+    >
+      {props.invisibleText}
+    </div>
+  );
+}
+
+Button.Skeleton = ButtonSkeleton;
+
 export default Button;

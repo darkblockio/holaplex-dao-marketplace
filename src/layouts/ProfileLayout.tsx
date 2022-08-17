@@ -6,6 +6,7 @@ import { Overview } from './../components/Overview';
 import Button, { ButtonSize, ButtonType } from '../components/Button';
 import Head from 'next/head';
 import { useConnectedWalletProfile } from '../providers/ConnectedWalletProvider';
+import { useWallet } from '@solana/wallet-adapter-react';
 
 interface ProfileLayout {
   children: ReactElement;
@@ -14,14 +15,15 @@ interface ProfileLayout {
 
 function ProfileLayout({ children, wallet }: ProfileLayout): JSX.Element {
   const { t } = useTranslation(['profile', 'common']);
-
+  const { connecting } = useWallet();
   const address = wallet.address;
-  const connectedWalletProfile = useConnectedWalletProfile();
+  const connectedWallet = useConnectedWalletProfile();
 
-  const amIFollowingThisProfile = connectedWalletProfile.connectedWalletProfile?.following.some(
+  const amIFollowingThisProfile = connectedWallet?.profile?.following.some(
     (f) => f.to.address === wallet.address
   );
 
+  const loading = connecting || connectedWallet.loading;
   return (
     <>
       <Head>
@@ -39,16 +41,22 @@ function ProfileLayout({ children, wallet }: ProfileLayout): JSX.Element {
             title={<Overview.Title>{wallet.displayName}</Overview.Title>}
           >
             <Overview.Actions>
-              {amIFollowingThisProfile ? (
+              {loading ? (
+                <Button.Skeleton invisibleText="Follow"></Button.Skeleton>
+              ) : amIFollowingThisProfile ? (
                 <Button
                   type={ButtonType.Secondary}
-                  icon={<MinusIcon width={14} height={14} />}
+                  // icon={<MinusIcon width={14} height={14} />}
                   size={ButtonSize.Small}
                 >
                   {t('unfollow', { ns: 'common' })}
                 </Button>
               ) : (
-                <Button icon={<PlusIcon width={14} height={14} />} size={ButtonSize.Small}>
+                <Button
+                  loading={loading}
+                  icon={<PlusIcon width={14} height={14} />}
+                  size={ButtonSize.Small}
+                >
                   {t('follow', { ns: 'common' })}
                 </Button>
               )}

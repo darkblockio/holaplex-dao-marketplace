@@ -15,15 +15,15 @@ export interface ConnectedWalletData {
   };
 }
 
-const ConnectedWalletProfileContext = React.createContext<{
-  connectedWalletProfile: ConnectedWalletData | null;
+const ConnectedWalletContext = React.createContext<{
+  profile: ConnectedWalletData | null;
   loading: boolean;
 }>({
-  connectedWalletProfile: null,
+  profile: null,
   loading: false,
 });
 
-export function ConnectedWalletProfileProvider(props: { children: React.ReactNode }) {
+export function ConnectedWalletProvider(props: { children: React.ReactNode }) {
   const wallet = useAnchorWallet();
   const { connection } = useConnection();
 
@@ -67,26 +67,29 @@ export function ConnectedWalletProfileProvider(props: { children: React.ReactNod
     }
   );
 
-  const connectedWalletData = useMemo(() => {
-    return {
-      connectedWalletProfile: connectedWalletQuery.data || null,
-      loading: connectedWalletQuery.loading,
-    };
-  }, [connectedWalletQuery.data]);
+  // const connectedWalletData = useMemo(() => {
+  //   return {
+  //     connectedWalletProfile: connectedWalletQuery.data || null,
+  //     loading: connectedWalletQuery.loading,
+  //   };
+  // }, [connectedWalletQuery.data]);
 
   return (
-    <ConnectedWalletProfileContext.Provider value={connectedWalletData}>
+    <ConnectedWalletContext.Provider
+      value={{
+        profile: connectedWalletQuery.data || null,
+        loading: connectedWalletQuery.loading,
+      }}
+    >
       {props.children}
-    </ConnectedWalletProfileContext.Provider>
+    </ConnectedWalletContext.Provider>
   );
 }
 
 export const useConnectedWalletProfile = () => {
-  const connectedWalletData = useContext(ConnectedWalletProfileContext);
+  const connectedWalletData = useContext(ConnectedWalletContext);
   if (connectedWalletData === undefined) {
-    throw new Error(
-      'useConnectedWalletProfile must be used within a ConnectedWalletProfileProvider'
-    );
+    throw new Error('useConnectedWalletProfile must be used within a ConnectedWalletProvider');
   }
   return connectedWalletData;
 };

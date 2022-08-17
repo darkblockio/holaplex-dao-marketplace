@@ -30,7 +30,7 @@ import config from './../app.config';
 import Search from '../components/Search';
 import useGlobalSearch from './../hooks/globalsearch';
 import {
-  ConnectedWalletProfileProvider,
+  ConnectedWalletProvider,
   useConnectedWalletProfile,
 } from '../providers/ConnectedWalletProvider';
 
@@ -50,13 +50,13 @@ function App({ children }: AppComponentProps) {
   const [showNav, setShowNav] = useNavigation();
   const onLogin = useLogin();
   const { connecting } = useWallet();
-  const connectedWalletProfile = useConnectedWalletProfile();
+  const connectedWallet = useConnectedWalletProfile();
 
   const { t } = useTranslation('common');
 
   const { updateSearch, searchTerm, results, searching, hasResults } = useGlobalSearch();
 
-  const loading = connectedWalletProfile.loading || connecting;
+  const loading = connectedWallet.loading || connecting;
 
   return (
     <>
@@ -138,14 +138,14 @@ function App({ children }: AppComponentProps) {
         <div className="flex flex-shrink justify-end md:w-1/4">
           {loading ? (
             <div className="hidden h-10 w-10 rounded-full bg-gray-800 md:inline-block" />
-          ) : connectedWalletProfile.connectedWalletProfile ? (
+          ) : connectedWallet.profile ? (
             <img
               className="hidden h-10 w-10 cursor-pointer rounded-full transition md:inline-block"
-              src={connectedWalletProfile.connectedWalletProfile?.wallet.previewImage}
+              src={connectedWallet.profile?.wallet.previewImage}
               alt="profile image"
             />
           ) : (
-            <Button onClick={onLogin} className="hidden md:inline-block">
+            <Button loading={loading} onClick={onLogin} className="hidden md:inline-block">
               {t('connect')}
             </Button>
           )}
@@ -217,13 +217,13 @@ function AppPage({ Component, pageProps }: AppPropsWithLayout): JSX.Element {
         <WalletProvider wallets={wallets} autoConnect>
           <WalletModalProvider className="wallet-modal-theme">
             <ViewerProvider>
-              <ConnectedWalletProfileProvider>
+              <ConnectedWalletProvider>
                 <App>
                   <PageLayout {...pageProps}>
                     <Component {...pageProps} />
                   </PageLayout>
                 </App>
-              </ConnectedWalletProfileProvider>
+              </ConnectedWalletProvider>
             </ViewerProvider>
           </WalletModalProvider>
         </WalletProvider>
