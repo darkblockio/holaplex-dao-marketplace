@@ -60,13 +60,16 @@ export function ConnectedWalletProvider(props: { children: React.ReactNode }) {
     }
   );
 
+  const connectedWalletData = useMemo(
+    () => ({
+      profile: connectedWalletQuery.data || null,
+      loading: connecting || connectedWalletQuery.loading,
+    }),
+    [connectedWalletQuery, connecting]
+  );
+
   return (
-    <ConnectedWalletContext.Provider
-      value={{
-        profile: connectedWalletQuery.data || null,
-        loading: connecting || connectedWalletQuery.loading,
-      }}
-    >
+    <ConnectedWalletContext.Provider value={connectedWalletData}>
       {props.children}
     </ConnectedWalletContext.Provider>
   );
