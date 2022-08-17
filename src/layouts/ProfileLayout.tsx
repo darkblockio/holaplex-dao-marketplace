@@ -5,7 +5,7 @@ import { useTranslation } from 'next-i18next';
 import { Overview } from './../components/Overview';
 import Button, { ButtonSize, ButtonType } from '../components/Button';
 import Head from 'next/head';
-import { useConnectedWalletProfile } from '../providers/ConnectedWalletProvider';
+import { useConnectedWalletData } from '../providers/ConnectedWalletProvider';
 import { useWallet } from '@solana/wallet-adapter-react';
 
 interface ProfileLayout {
@@ -17,7 +17,7 @@ function ProfileLayout({ children, wallet }: ProfileLayout): JSX.Element {
   const { t } = useTranslation(['profile', 'common']);
   const { connecting } = useWallet();
   const address = wallet.address;
-  const connectedWallet = useConnectedWalletProfile();
+  const connectedWallet = useConnectedWalletData();
 
   const amIFollowingThisProfile = connectedWallet?.profile?.following.some(
     (f) => f.to.address === wallet.address

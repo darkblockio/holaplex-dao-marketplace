@@ -3,10 +3,10 @@ import { AnchorWallet, useAnchorWallet, useConnection } from '@solana/wallet-ada
 import { Connection } from '@solana/web3.js';
 import React, { useContext, useEffect, useMemo } from 'react';
 import { UserWallet, Wallet } from '../types';
-import { GetConnectedWalletQuery } from '../queries/connectedWallet.graphql';
+import { GetConnectedWalletDataQuery } from '../queries/connectedWalletData.graphql';
 import { viewerVar } from './../cache';
 
-export interface ConnectedWalletData {
+export interface ConnectedWalletProfile {
   wallet: Wallet;
   followers: { from: UserWallet }[];
   following: { to: UserWallet }[];
@@ -16,7 +16,7 @@ export interface ConnectedWalletData {
 }
 
 const ConnectedWalletContext = React.createContext<{
-  profile: ConnectedWalletData | null;
+  profile: ConnectedWalletProfile | null;
   loading: boolean;
 }>({
   profile: null,
@@ -57,8 +57,8 @@ export function ConnectedWalletProvider(props: { children: React.ReactNode }) {
     return { wallet, connection };
   }, [wallet, connection]);
 
-  const connectedWalletQuery = useQuery<ConnectedWalletData, { address?: string }>(
-    GetConnectedWalletQuery,
+  const connectedWalletQuery = useQuery<ConnectedWalletProfile, { address?: string }>(
+    GetConnectedWalletDataQuery,
     {
       variables: {
         address: pubkey,
@@ -66,13 +66,6 @@ export function ConnectedWalletProvider(props: { children: React.ReactNode }) {
       skip: !pubkey,
     }
   );
-
-  // const connectedWalletData = useMemo(() => {
-  //   return {
-  //     connectedWalletProfile: connectedWalletQuery.data || null,
-  //     loading: connectedWalletQuery.loading,
-  //   };
-  // }, [connectedWalletQuery.data]);
 
   return (
     <ConnectedWalletContext.Provider
@@ -86,10 +79,10 @@ export function ConnectedWalletProvider(props: { children: React.ReactNode }) {
   );
 }
 
-export const useConnectedWalletProfile = () => {
+export const useConnectedWalletData = () => {
   const connectedWalletData = useContext(ConnectedWalletContext);
   if (connectedWalletData === undefined) {
-    throw new Error('useConnectedWalletProfile must be used within a ConnectedWalletProvider');
+    throw new Error('useConnectedWalletData must be used within a ConnectedWalletProvider');
   }
   return connectedWalletData;
 };

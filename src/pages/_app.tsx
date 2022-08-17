@@ -31,7 +31,7 @@ import Search from '../components/Search';
 import useGlobalSearch from './../hooks/globalsearch';
 import {
   ConnectedWalletProvider,
-  useConnectedWalletProfile,
+  useConnectedWalletData,
 } from '../providers/ConnectedWalletProvider';
 
 function clusterApiUrl(network: WalletAdapterNetwork) {
@@ -50,7 +50,7 @@ function App({ children }: AppComponentProps) {
   const [showNav, setShowNav] = useNavigation();
   const onLogin = useLogin();
   const { connecting } = useWallet();
-  const connectedWallet = useConnectedWalletProfile();
+  const connectedWallet = useConnectedWalletData();
 
   const { t } = useTranslation('common');
 

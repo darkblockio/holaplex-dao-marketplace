@@ -1,6 +1,6 @@
 #import "./fragments/profile.graphql"
 
-query GetConnectedWalletQuery($address: PublicKey!, $limit: Int = 1000, $offset: Int = 0) {
+query GetConnectedWalletDataQuery($address: PublicKey!, $limit: Int = 1000, $offset: Int = 0) {
   wallet(address: $address) {
     address
     displayName @client
