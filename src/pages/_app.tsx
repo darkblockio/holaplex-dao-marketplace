@@ -21,7 +21,6 @@ import { ApolloProvider } from '@apollo/client';
 import Link from 'next/link';
 import useNavigation from './../hooks/nav';
 import useLogin from '../hooks/login';
-import ViewerProvider from '../providers/ViewerProvider';
 import Button, { ButtonSize } from './../components/Button';
 import client from './../client';
 import './../../styles/globals.css';
@@ -218,15 +217,13 @@ function AppPage({ Component, pageProps }: AppPropsWithLayout): JSX.Element {
       <ConnectionProvider endpoint={endpoint}>
         <WalletProvider wallets={wallets} autoConnect>
           <WalletModalProvider className="wallet-modal-theme">
-            <ViewerProvider>
-              <ConnectedWalletProvider>
-                <App>
-                  <PageLayout {...pageProps}>
-                    <Component {...pageProps} />
-                  </PageLayout>
-                </App>
-              </ConnectedWalletProvider>
-            </ViewerProvider>
+            <ConnectedWalletProvider>
+              <App>
+                <PageLayout {...pageProps}>
+                  <Component {...pageProps} />
+                </PageLayout>
+              </App>
+            </ConnectedWalletProvider>
           </WalletModalProvider>
         </WalletProvider>
       </ConnectionProvider>
