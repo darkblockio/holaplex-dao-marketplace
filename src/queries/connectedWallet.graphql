@@ -3,6 +3,7 @@
 query GetConnectedWalletQuery($address: PublicKey!, $limit: Int = 1000, $offset: Int = 0) {
   wallet(address: $address) {
     address
+    displayName @client
     previewImage @client
     profile {
       ...ProfileInfo

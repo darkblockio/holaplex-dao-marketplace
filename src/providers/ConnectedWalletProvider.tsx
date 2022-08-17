@@ -2,43 +2,26 @@ import { useQuery } from '@apollo/client';
 import { AnchorWallet, useAnchorWallet, useConnection } from '@solana/wallet-adapter-react';
 import { Connection } from '@solana/web3.js';
 import React, { useContext, useEffect, useMemo } from 'react';
-import { UserWallet } from '../types';
+import { UserWallet, Wallet } from '../types';
 import { GetConnectedWalletQuery } from '../queries/connectedWallet.graphql';
 import { viewerVar } from './../cache';
 
 export interface ConnectedWalletData {
-  wallet: {
-    // pubkey should maybe be renamed to address
-    address: string | null;
-    previewImage?: string;
-    profile?: {
-      handle: string;
-      profileImageUrlLowres: string;
-      profileImageUrlHighres: string;
-    } | null;
-    nftCounts: {
-      owned: number;
-      created: number;
-      offered: number;
-      listed: number;
-    };
-    connectionCounts: {
-      fromCount: number;
-      toCount: number;
-    };
-  };
+  wallet: Wallet;
   followers: { from: UserWallet }[];
   following: { to: UserWallet }[];
-  walletConnectionPair: {
-    wallet: AnchorWallet;
-    connection: Connection;
-  };
   viewer?: {
     balance?: number;
   };
 }
 
-const ConnectedWalletProfileContext = React.createContext<ConnectedWalletData | null>(null);
+const ConnectedWalletProfileContext = React.createContext<{
+  connectedWalletProfile: ConnectedWalletData | null;
+  loading: boolean;
+}>({
+  connectedWalletProfile: null,
+  loading: false,
+});
 
 export function ConnectedWalletProfileProvider(props: { children: React.ReactNode }) {
   const wallet = useAnchorWallet();
@@ -47,7 +30,7 @@ export function ConnectedWalletProfileProvider(props: { children: React.ReactNod
   const pubkey = wallet?.publicKey.toBase58();
 
   useEffect(() => {
-    (async () => {
+    async function updateConnectedWalletSolBalance() {
       if (!wallet?.publicKey) {
         return;
       }
@@ -64,9 +47,11 @@ export function ConnectedWalletProfileProvider(props: { children: React.ReactNod
         console.error(e);
         return null;
       }
-    })();
+    }
+    updateConnectedWalletSolBalance();
   }, [wallet?.publicKey, connection]);
 
+  // a relic of the past, might be refactored out later when we start re-implementing following
   const walletConnectionPair = useMemo(() => {
     if (!wallet) return null;
     return { wallet, connection };
@@ -81,9 +66,12 @@ export function ConnectedWalletProfileProvider(props: { children: React.ReactNod
       skip: !pubkey,
     }
   );
-  // should maybe be put in a useMemo
+
   const connectedWalletData = useMemo(() => {
-    return connectedWalletQuery.data || null;
+    return {
+      connectedWalletProfile: connectedWalletQuery.data || null,
+      loading: connectedWalletQuery.loading,
+    };
   }, [connectedWalletQuery.data]);
 
   return (

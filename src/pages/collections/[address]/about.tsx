@@ -28,6 +28,14 @@ export async function getServerSideProps({ locale, params }: GetServerSidePropsC
     };
   }
 
+  return {
+    props: {
+      collection,
+      ...i18n,
+    },
+  };
+}
+
 export default function CollectionAboutPage(props: { collection: Collection }) {
   const { t } = useTranslation(['collection', 'common']);
   const connectedWalletProfile = useConnectedWalletProfile();
@@ -44,10 +52,9 @@ export default function CollectionAboutPage(props: { collection: Collection }) {
       </section>
       <div className="my-6 border border-gray-800" />
       <section className="space-y-4">
-        <div className='flex justify-between' >
-
-        <h2 className="font-semibold">{t('creatorsTitle')}</h2>
-                  {/* <ButtonGroup value={creatorsFilter} onChange={setCreatorsFilter}>
+        <div className="flex justify-between">
+          <h2 className="font-semibold">{t('creatorsTitle')}</h2>
+          {/* <ButtonGroup value={creatorsFilter} onChange={setCreatorsFilter}>
             <ButtonGroup.Option value={'ALL'}>{t('all')}</ButtonGroup.Option>
             <ButtonGroup.Option value={'FOLLOWING'}>{t('following')}</ButtonGroup.Option>
           </ButtonGroup> */}

@@ -27,7 +27,6 @@ import client from './../client';
 import './../../styles/globals.css';
 import { Wallet, Nft, MetadataJson } from './../types';
 import config from './../app.config';
-import useViewer from './../hooks/viewer';
 import Search from '../components/Search';
 import useGlobalSearch from './../hooks/globalsearch';
 import {
@@ -51,13 +50,13 @@ function App({ children }: AppComponentProps) {
   const [showNav, setShowNav] = useNavigation();
   const onLogin = useLogin();
   const { connecting } = useWallet();
-  const viewerQueryResult = useViewer();
+  const connectedWalletProfile = useConnectedWalletProfile();
 
   const { t } = useTranslation('common');
 
   const { updateSearch, searchTerm, results, searching, hasResults } = useGlobalSearch();
 
-  const loading = viewerQueryResult.loading || connecting;
+  const loading = connectedWalletProfile.loading || connecting;
 
   return (
     <>
@@ -139,10 +138,10 @@ function App({ children }: AppComponentProps) {
         <div className="flex flex-shrink justify-end md:w-1/4">
           {loading ? (
             <div className="hidden h-10 w-10 rounded-full bg-gray-800 md:inline-block" />
-          ) : viewerQueryResult.data?.viewer ? (
+          ) : connectedWalletProfile.connectedWalletProfile ? (
             <img
               className="hidden h-10 w-10 cursor-pointer rounded-full transition md:inline-block"
-              src={viewerQueryResult.data?.wallet.previewImage}
+              src={connectedWalletProfile.connectedWalletProfile?.wallet.previewImage}
               alt="profile image"
             />
           ) : (
