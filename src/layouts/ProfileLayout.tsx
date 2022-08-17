@@ -15,15 +15,13 @@ interface ProfileLayout {
 
 function ProfileLayout({ children, wallet }: ProfileLayout): JSX.Element {
   const { t } = useTranslation(['profile', 'common']);
-  const { connecting } = useWallet();
   const address = wallet.address;
-  const connectedWallet = useConnectedWalletData();
+  const connectedWalletData = useConnectedWalletData();
 
-  const amIFollowingThisProfile = connectedWallet?.profile?.following.some(
+  const amIFollowingThisProfile = connectedWalletData?.profile?.following.some(
     (f) => f.to.address === wallet.address
   );
 
-  const loading = connecting || connectedWallet.loading;
   return (
     <>
       <Head>
@@ -41,7 +39,7 @@ function ProfileLayout({ children, wallet }: ProfileLayout): JSX.Element {
             title={<Overview.Title>{wallet.displayName}</Overview.Title>}
           >
             <Overview.Actions>
-              {loading ? (
+              {connectedWalletData.loading ? (
                 <Button.Skeleton invisibleText="Follow"></Button.Skeleton>
               ) : amIFollowingThisProfile ? (
                 <Button
@@ -53,7 +51,7 @@ function ProfileLayout({ children, wallet }: ProfileLayout): JSX.Element {
                 </Button>
               ) : (
                 <Button
-                  loading={loading}
+                  loading={connectedWalletData.loading}
                   icon={<PlusIcon width={14} height={14} />}
                   size={ButtonSize.Small}
                 >

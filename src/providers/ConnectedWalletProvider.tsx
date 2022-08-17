@@ -1,5 +1,5 @@
 import { useQuery } from '@apollo/client';
-import { AnchorWallet, useAnchorWallet, useConnection } from '@solana/wallet-adapter-react';
+import { useConnection, useWallet } from '@solana/wallet-adapter-react';
 import { Connection } from '@solana/web3.js';
 import React, { useContext, useEffect, useMemo } from 'react';
 import { UserWallet, Wallet } from '../types';
@@ -24,23 +24,22 @@ const ConnectedWalletContext = React.createContext<{
 });
 
 export function ConnectedWalletProvider(props: { children: React.ReactNode }) {
-  const wallet = useAnchorWallet();
+  const { connecting, publicKey } = useWallet();
   const { connection } = useConnection();
-
-  const pubkey = wallet?.publicKey.toBase58();
+  const pubkey = publicKey?.toBase58();
 
   useEffect(() => {
     async function updateConnectedWalletSolBalance() {
-      if (!wallet?.publicKey) {
+      if (!publicKey) {
         return;
       }
 
       try {
-        const balance = await connection.getBalance(wallet?.publicKey);
+        const balance = await connection.getBalance(publicKey);
 
         viewerVar({
           balance,
-          id: wallet?.publicKey?.toBase58() as string,
+          id: publicKey.toBase58() as string,
           __typename: 'Viewer',
         });
       } catch (e) {
@@ -49,13 +48,7 @@ export function ConnectedWalletProvider(props: { children: React.ReactNode }) {
       }
     }
     updateConnectedWalletSolBalance();
-  }, [wallet?.publicKey, connection]);
-
-  // a relic of the past, might be refactored out later when we start re-implementing following
-  const walletConnectionPair = useMemo(() => {
-    if (!wallet) return null;
-    return { wallet, connection };
-  }, [wallet, connection]);
+  }, [publicKey, connection]);
 
   const connectedWalletQuery = useQuery<ConnectedWalletProfile, { address?: string }>(
     GetConnectedWalletDataQuery,
@@ -71,7 +64,7 @@ export function ConnectedWalletProvider(props: { children: React.ReactNode }) {
     <ConnectedWalletContext.Provider
       value={{
         profile: connectedWalletQuery.data || null,
-        loading: connectedWalletQuery.loading,
+        loading: connecting || connectedWalletQuery.loading,
       }}
     >
       {props.children}

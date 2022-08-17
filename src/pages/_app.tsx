@@ -50,13 +50,11 @@ function App({ children }: AppComponentProps) {
   const [showNav, setShowNav] = useNavigation();
   const onLogin = useLogin();
   const { connecting } = useWallet();
-  const connectedWallet = useConnectedWalletData();
+  const connectedWalletData = useConnectedWalletData();
 
   const { t } = useTranslation('common');
 
   const { updateSearch, searchTerm, results, searching, hasResults } = useGlobalSearch();
-
-  const loading = connectedWallet.loading || connecting;
 
   return (
     <>
@@ -136,16 +134,20 @@ function App({ children }: AppComponentProps) {
           </Search>
         </div>
         <div className="flex flex-shrink justify-end md:w-1/4">
-          {loading ? (
+          {connectedWalletData.loading ? (
             <div className="hidden h-10 w-10 rounded-full bg-gray-800 md:inline-block" />
-          ) : connectedWallet.profile ? (
+          ) : connectedWalletData.profile ? (
             <img
               className="hidden h-10 w-10 cursor-pointer rounded-full transition md:inline-block"
-              src={connectedWallet.profile?.wallet.previewImage}
+              src={connectedWalletData.profile?.wallet.previewImage}
               alt="profile image"
             />
           ) : (
-            <Button loading={loading} onClick={onLogin} className="hidden md:inline-block">
+            <Button
+              loading={connectedWalletData.loading}
+              onClick={onLogin}
+              className="hidden md:inline-block"
+            >
               {t('connect')}
             </Button>
           )}

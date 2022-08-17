@@ -9,7 +9,7 @@ import { PlusIcon } from '@heroicons/react/outline';
 import { GetServerSidePropsContext } from 'next';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import client from '../../../client';
-import { useConnectedWalletData } from '../../../providers/ConnectedWalletProvider';
+// import { useConnectedWalletData } from '../../../providers/ConnectedWalletProvider';
 
 export async function getServerSideProps({ locale, params }: GetServerSidePropsContext) {
   const i18n = await serverSideTranslations(locale as string, ['common', 'collection']);
@@ -38,11 +38,9 @@ export async function getServerSideProps({ locale, params }: GetServerSidePropsC
 
 export default function CollectionAboutPage(props: { collection: Collection }) {
   const { t } = useTranslation(['collection', 'common']);
-  const connectedWalletProfile = useConnectedWalletData();
-
-  console.log('connected wallet', connectedWalletProfile);
-
-  const [creatorsFilter, setCreatorsFilter] = useState<'ALL' | 'FOLLOWING'>('ALL');
+  // For use with the Following filter
+  // const connectedWalletProfile = useConnectedWalletData();
+  // const [creatorsFilter, setCreatorsFilter] = useState<'ALL' | 'FOLLOWING'>('ALL');
 
   return (
     <div className="  py-6 px-4 text-white md:px-8">
