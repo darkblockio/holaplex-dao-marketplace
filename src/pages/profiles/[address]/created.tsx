@@ -1,5 +1,6 @@
 import type { GetServerSidePropsContext, GetStaticPropsContext } from 'next';
 import { WalletProfileQuery, CreatedNFTsQuery } from './../../../queries/profile.graphql';
+// import { WalletProfileQuery, CreatedNFTsQuery } from 'profile.graphql';
 import ProfileLayout from '../../../layouts/ProfileLayout';
 import client from '../../../client';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';

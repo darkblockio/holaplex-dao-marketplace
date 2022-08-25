@@ -3,6 +3,7 @@ import {
   WalletProfileQuery,
   WalletProfileClientQuery,
   CollectedNFTsQuery,
+// } from 'profile.graphql';
 } from './../../../queries/profile.graphql';
 import ProfileLayout from '../../../layouts/ProfileLayout';
 import client from './../../../client';
@@ -23,7 +24,7 @@ import { List, ListGridSize } from './../../../components/List';
 import Price from './../../../components/Price';
 import { Collection } from './../../../components/Collection';
 import { Nft } from '../../../types';
-import CollectedCollectionItem from '../../../components/CollectedCollectionItem';
+// import CollectedCollectionItem from '../../../components/CollectedCollectionItem';
 import { Listbox } from '@headlessui/react';
 
 export async function getServerSideProps({ locale, params }: GetServerSidePropsContext) {

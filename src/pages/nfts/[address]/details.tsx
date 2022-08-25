@@ -3,6 +3,7 @@ import { GetServerSidePropsContext } from 'next';
 import Link from 'next/link';
 import client from './../../../client';
 import { NftQuery } from './../../../queries/nft.graphql';
+// import { NftQuery } from 'nft.graphql';
 import { Nft, Marketplace } from '../../../types';
 import { ReactNode } from 'react';
 import NftLayout from '../../../layouts/NftLayout';

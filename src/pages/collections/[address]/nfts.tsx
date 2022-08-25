@@ -2,6 +2,7 @@ import type { GetServerSidePropsContext } from 'next';
 import { ReactElement, useEffect, useState } from 'react';
 import { InView } from 'react-intersection-observer';
 import { CollectionQuery, CollectionNFTsQuery } from './../../../queries/collection.graphql';
+// import { CollectionQuery, CollectionNFTsQuery } from 'collection.graphql';
 import { useForm, Controller } from 'react-hook-form';
 import CollectionLayout from '../../../layouts/CollectionLayout';
 import client from './../../../client';
@@ -129,7 +130,7 @@ export default function CollectionNfts() {
         />
       </Toolbar>
       <Sidebar.Page open={open}>
-        <Sidebar.Panel></Sidebar.Panel>
+        <Sidebar.Panel><></></Sidebar.Panel>
         <Sidebar.Content>
           <List
             expanded={open}

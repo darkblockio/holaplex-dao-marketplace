@@ -1,6 +1,7 @@
 import type { GetServerSidePropsContext } from 'next';
 import { ReactElement, useEffect, useState, useMemo, SVGProps, ReactNode } from 'react';
 import { CollectionQuery, CollectionActivitiesQuery } from './../../../queries/collection.graphql';
+// import { CollectionQuery, CollectionActivitiesQuery } from 'collection.graphql';
 import CollectionLayout from '../../../layouts/CollectionLayout';
 import client from '../../../client';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
