@@ -1,1 +1,1 @@
-declare module '@darkblock.io/sol-widget';
+// declare module '@darkblock.io/sol-widget';

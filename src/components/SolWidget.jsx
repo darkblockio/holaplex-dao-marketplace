@@ -55,11 +55,17 @@ const SolWidget = ({ id, upgrade = false }) => {
   if (walletAdapter && wallectConnected) {
     if (upgrade) {
       return (
-        <SolUpgradeWidget apiKey={apiKey} tokenId={id} walletAdapter={walletAdapter} cb={cbUpgrade} config={config} />
+        <>
+          <h2>UPGRADER</h2>
+          <SolUpgradeWidget apiKey={apiKey} tokenId={id} walletAdapter={walletAdapter} cb={cbUpgrade} config={config} />
+        </>
       )
     } else {
       return (
-        <SolanaDarkblockWidget cb={(state) => cb(state)} tokenId={id} walletAdapter={walletAdapter} config={config} />
+        <>
+          <h2>WIDGET</h2>
+          <SolanaDarkblockWidget cb={(state) => cb(state)} tokenId={id} walletAdapter={walletAdapter} config={config} />
+        </>
       )
     }
   } else {
