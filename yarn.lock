@@ -1220,10 +1220,10 @@
   resolved "https://registry.yarnpkg.com/@csstools/selector-specificity/-/selector-specificity-2.0.2.tgz#1bfafe4b7ed0f3e4105837e056e0a89b108ebe36"
   integrity sha512-IkpVW/ehM1hWKln4fCA3NzJU8KwD+kIOvPZA4cqxoJHtE21CCzjyp+Kxbu0i5I4tBNOlXPL9mjwnWlL0VEG4Fg==
 
-"@darkblock.io/sol-widget@^0.2.10":
-  version "0.2.10"
-  resolved "https://registry.yarnpkg.com/@darkblock.io/sol-widget/-/sol-widget-0.2.10.tgz#4fed2fbdba1696404710d5e3e04c30d8d0e9dd82"
-  integrity sha512-KngGWgKAtNhimVBicqPxb7+vzLucqqplp6By1l1XWqaIiGYU33vqgC7kNFanNwndR9aLR7PZlpWwEgXF3WtX0A==
+"@darkblock.io/sol-widget@0.2.0-beta.18":
+  version "0.2.0-beta.18"
+  resolved "https://registry.yarnpkg.com/@darkblock.io/sol-widget/-/sol-widget-0.2.0-beta.18.tgz#7a935f9aad5f9c3f9e586c2abec1d85bfdeb4f55"
+  integrity sha512-08Go9FMNva/6z8RR2dfAy2KEJ1jt4fiDx1MOog5KVbeHFOqk+8nNujFr4cxhLeYIdBkROxweOwSbuO7ujM39FA==
   dependencies:
     "@xstate/react" "^2.0.0"
     base64-arraybuffer "^1.0.2"
