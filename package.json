@@ -15,7 +15,7 @@
   },
   "dependencies": {
     "@apollo/client": "^3.6.9",
-    "@darkblock.io/sol-widget": "0.2.10",
+    "@darkblock.io/sol-widget": "0.2.0-beta.20",
     "@headlessui/react": "^1.6.6",
     "@heroicons/react": "^1.0.6",
     "@react-hook/window-size": "^3.0.7",
