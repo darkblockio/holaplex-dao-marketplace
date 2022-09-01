@@ -13,13 +13,13 @@ const config = {
   },
 };
 
-const SolanaDarkblockWidget = dynamic(
-  () =>
-    import('@darkblock.io/sol-widget').then((mod) => {
-      return mod.SolanaDarkblockWidget
-    }),
-  { ssr: false }
-)
+// const SolanaDarkblockWidget = dynamic(
+//   () =>
+//     import('@darkblock.io/sol-widget').then((mod) => {
+//       return mod.SolanaDarkblockWidget
+//     }),
+//   { ssr: false }
+// )
 
 const SolUpgradeWidget = dynamic(
   () =>
@@ -56,7 +56,7 @@ const SolWidget = ({ id, upgrade = false }) => {
     }
   }, [walletAdapter.connected])
 
-  if (walletAdapter && wallectConnected) {
+  if (walletAdapter && wallectConnected && typeof window !== 'undefined') {
     console.log('========================')
     console.log('yes walletAdapter')
     if (upgrade) {
@@ -65,11 +65,19 @@ const SolWidget = ({ id, upgrade = false }) => {
       console.log('id', id)
       console.log('config', config)
       return (
-        <SolUpgradeWidget apiKey={apiKey} tokenId={id} walletAdapter={walletAdapter} cb={cbUpgrade} config={config} />
+        <div>
+          <p>++++++++++++++++++</p>
+          <br />
+          <SolUpgradeWidget apiKey={apiKey} tokenId={id} walletAdapter={walletAdapter} cb={cbUpgrade} config={config} />
+          <br />
+          <p>******************</p>
+        </div>
+
       )
     } else {
       return (
-        <SolanaDarkblockWidget cb={cb} tokenId={id} walletAdapter={walletAdapter} config={config} />
+        <></>
+        // <SolanaDarkblockWidget cb={cb} tokenId={id} walletAdapter={walletAdapter} config={config} />
       )
     }
   } else {

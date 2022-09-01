@@ -22,6 +22,9 @@ enum NftPage {
 }
 
 export default function NftLayout ({ children, nft }: NftLayoutProps) {
+
+  console.log(' ===== NftLayout', nft)
+
   const { t } = useTranslation('nft');
   const router = useRouter();
 
