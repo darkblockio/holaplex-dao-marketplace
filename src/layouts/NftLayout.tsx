@@ -1,13 +1,12 @@
 import { useTranslation } from 'next-i18next';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
-import { ReactNode, useCallback } from 'react';
+import { ReactNode } from 'react';
 import { Nft } from '../types';
 import { ButtonGroup } from './../components/ButtonGroup';
 import Button, { ButtonSize, ButtonType } from './../components/Button';
 import { UploadIcon } from '@heroicons/react/outline';
 import Head from 'next/head';
-import { useFetchDarkblocked } from '../hooks/useFetchDarkblocked';
 import SolWidget from '../components/SolWidget';
 
 interface NftLayoutProps {
@@ -22,9 +21,6 @@ enum NftPage {
 }
 
 export default function NftLayout ({ children, nft }: NftLayoutProps) {
-
-  console.log(' ===== NftLayout', nft)
-
   const { t } = useTranslation('nft');
   const router = useRouter();
 
@@ -74,19 +70,11 @@ export default function NftLayout ({ children, nft }: NftLayoutProps) {
               {t('bid')}
             </Button>
           </div>
-          <div className="text-white mt-10 rounded-lg bg-gradient-radial from-gray-900 to-gray-800 p-4 md:w-fit">
-            <p>Div above Darkblock</p>
-            <p>mint address: {nft?.mintAddress}</p>
-
-          </div>
           <div className='mt-10 rounded-lg bg-gradient-radial from-gray-900 to-gray-800 p-4 md:w-fit'>
-            <div className='pb-4 flex justify-end text-white'>
-              Upgrade widget here:&nbsp;&nbsp;&nbsp;
-              {nft?.mintAddress && nft?.mintAddress.length > 0 && (
-                <SolWidget id={nft?.mintAddress} upgrade={true} />
-              )}
+            <div className='pb-4 flex justify-end'>
+              <SolWidget id={nft?.mintAddress} upgrade={true} />
             </div>
-            {/*<SolWidget id={nft?.mintAddress} upgrade={false} />*/}
+            <SolWidget id={nft?.mintAddress} upgrade={false} />
           </div>
         </div>
       </div>

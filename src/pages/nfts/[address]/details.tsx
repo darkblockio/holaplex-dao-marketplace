@@ -10,8 +10,6 @@ import NftLayout from '../../../layouts/NftLayout';
 import { useTranslation } from 'next-i18next';
 import config from './../../../app.config';
 import Icon from './../../../components/Icon';
-import SolWidget from "../../../components/SolWidget";
-
 
 export async function getServerSideProps({ locale, params }: GetServerSidePropsContext) {
   const i18n = await serverSideTranslations(locale as string, ['common', 'nft']);
@@ -52,13 +50,6 @@ export default function NftDetails({ nft, marketplace }: NftDetailPageProps) {
 
   return (
     <>
-      <h3>HERE ==========</h3>
-      <div className="text-white">
-
-        darkblock here:
-        <SolWidget id={nft?.mintAddress} upgrade={true} />
-
-      </div>
       <h3 className="mb-4 text-xl">{t('attributes')}</h3>
       <div className="mb-6 grid grid-cols-2 gap-2 lg:grid-cols-3">
         {nft.attributes?.map((attribute) => (
