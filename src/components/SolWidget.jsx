@@ -3,8 +3,8 @@ import dynamic from 'next/dynamic'
 import { useWallet } from '@solana/wallet-adapter-react'
 
 const config = {
-  customCssClass: 'darkblock-css', // pass here a class name you plan to use
-  debug: false, // debug flag to console.log some variables
+  customCssClass: '', // pass here a class name you plan to use
+  debug: true, // debug flag to console.log some variables
   imgViewer: {
     // image viewer control parameters
     showRotationControl: true,
@@ -30,11 +30,11 @@ const SolUpgradeWidget = dynamic(
 )
 
 const cb = (param1) => {
-  // console.log('solWidget cb:', param1)
+  console.log('solWidget viewer cb:', param1)
 }
 
 const cbUpgrade = (param1) => {
-  // console.log('eth upgrade cb', param1)
+  console.log('solWidget upgrade cb', param1)
   if (param1 === 'upload_complete') {
     console.log('Darkblock upload complete')
   }
@@ -43,29 +43,37 @@ const cbUpgrade = (param1) => {
 const apiKey = '2jqkys7jg94gk0hwpwjg9e1psnft'
 
 const SolWidget = ({ id, upgrade = false }) => {
+
+  console.log('SolWidget: id, upgrade', id, upgrade)
+
   const walletAdapter = useWallet()
   const [wallectConnected, setWalletConnected] = useState(false)
 
   useEffect(() => {
     if (walletAdapter.connected) {
-      console.log('wallet connected')
+      console.log(' --- wallet connected')
       setWalletConnected(true)
     }
   }, [walletAdapter.connected])
 
-  if (walletAdapter) {
+  if (walletAdapter && wallectConnected) {
+    console.log('========================')
+    console.log('yes walletAdapter')
     if (upgrade) {
+      console.log('render the upgrade widget')
+      console.log('apiKey', apiKey)
+      console.log('id', id)
+      console.log('config', config)
       return (
         <SolUpgradeWidget apiKey={apiKey} tokenId={id} walletAdapter={walletAdapter} cb={cbUpgrade} config={config} />
       )
     } else {
       return (
-        <SolanaDarkblockWidget cb={(state) => cb(state)} tokenId={id} walletAdapter={walletAdapter} config={config} />
+        <SolanaDarkblockWidget cb={cb} tokenId={id} walletAdapter={walletAdapter} config={config} />
       )
     }
   } else {
-    console.log('else is here',walletAdapter,wallectConnected)
-    return <></>
+    return <>No wallet connected, unable to load unlockables</>
   }
 }
 

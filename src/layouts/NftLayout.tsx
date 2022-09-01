@@ -71,11 +71,19 @@ export default function NftLayout ({ children, nft }: NftLayoutProps) {
               {t('bid')}
             </Button>
           </div>
-          <div className='mt-10 rounded-lg bg-gradient-radial  from-gray-900 to-gray-800 p-4 md:w-fit'>
-            <div className='pb-4 flex justify-end'>
-              <SolWidget id={nft?.mintAddress} upgrade={true} />
+          <div className="text-white mt-10 rounded-lg bg-gradient-radial from-gray-900 to-gray-800 p-4 md:w-fit">
+            <p>Div above Darkblock</p>
+            <p>mint address: {nft?.mintAddress}</p>
+
+          </div>
+          <div className='mt-10 rounded-lg bg-gradient-radial from-gray-900 to-gray-800 p-4 md:w-fit'>
+            <div className='pb-4 flex justify-end text-white'>
+              Upgrade widget here:&nbsp;&nbsp;&nbsp;
+              {nft?.mintAddress && nft?.mintAddress.length > 0 && (
+                <SolWidget id={nft?.mintAddress} upgrade={true} />
+              )}
             </div>
-            <SolWidget id={nft?.mintAddress} upgrade={false} />
+            {/*<SolWidget id={nft?.mintAddress} upgrade={false} />*/}
           </div>
         </div>
       </div>
