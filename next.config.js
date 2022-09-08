@@ -15,7 +15,7 @@ const securityHeaders = [
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: true,
-  swcMinify: true,
+  swcMinify: false,
   // env: {
   //   gql: 'NEXT_PUBLIC_GRAPHQL_URL',
   //   rpc: 'NEXT_PUBLIC_SOLANA_RPC_URL',
